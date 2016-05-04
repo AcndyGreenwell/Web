@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% for f in results %}
+    <br>
+    {{ f.num }}, {{ f.datetime_start }} , {{ f.datetime_end }}
+{% endfor %}
+</body>
+</html>
