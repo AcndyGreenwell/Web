@@ -267,8 +267,12 @@ class TimeTableDelete(DeleteView):
 
 
 def ResultList(request, camera_id):
-    queryset = Results.objects.raw("Select counter_results.id, counter_results.num, counter_results.datetime_start, counter_results.datetime_end, counter_results.direction_Id, counter_results.zone_id_id from counter_results, counter_zoneoption, counter_direction, counter_zone, counter_cuser, counter_camera WHERE counter_results.zone_id_id = counter_zoneoption.id and counter_zoneoption.zone_id = counter_zone.id AND counter_zone.camera_id = "+camera_id+" AND counter_cuser.id = "+str(request.user.id)+" AND counter_results.direction_id = counter_direction.id AND counter_camera.id = "+camera_id+" and counter_zone.user_id ="+str(request.user.id))
+    # queryset = Results.objects.raw("Select counter_results.id, counter_results.num, counter_results.datetime_start, counter_results.datetime_end, counter_results.direction_Id, counter_results.zone_id_id from counter_results, counter_zoneoption, counter_direction, counter_zone, counter_cuser, counter_camera WHERE counter_results.zone_id_id = counter_zoneoption.id and counter_zoneoption.zone_id = counter_zone.id AND counter_zone.camera_id = "+camera_id+" AND counter_cuser.id = "+str(request.user.id)+" AND counter_results.direction_id = counter_direction.id AND counter_camera.id = "+camera_id+" and counter_zone.user_id ="+str(request.user.id))
+    zones = Zone.objects.filter(camera_id=camera_id, group=request.user.profile.company)
+    zoneops = ZoneOption.objects.filter(zone__in=zones)
+    queryset = Results.objects.filter(zone_id__in=zoneops)
     context = {
+        'cam': camera_id,
         'results': queryset,
     }
     return render(request, 'counter/results.html', context)

@@ -113,17 +113,13 @@ class TimeTable(models.Model):
     time_s = models.TimeField(help_text='Время начала', default='00:00')
     time_e = models.TimeField(help_text='Время конца', default='01:00')
     days = m.SelectMultipleField(choices=DAY_CHOICES, max_length=28, blank=True, null=True)
-    FIVEMINUTES = 300
-    TENMINUTES = 600
-    HALFHOUR = 1800
-    HOUR = 3600
     INTERVAL_CHOISES =(
-        (FIVEMINUTES, "5 минут"),
-        (TENMINUTES, "10 минут"),
-        (HALFHOUR, "30 минут"),
-        (HOUR, "1 час"),
+        (300, "5 минут"),
+        (600, "10 минут"),
+        (1800, "30 минут"),
+        (3600, "1 час"),
     )
-    interval_length = models.IntegerField(help_text='Время интервалов', choices=INTERVAL_CHOISES, default=TENMINUTES)
+    interval_length = models.IntegerField(help_text='Время интервалов', choices=INTERVAL_CHOISES, default=6000)
     status = models.CharField(choices=(('done', 'завершено'),
                                        ('waiting', 'ожидает'),
                                        ('inprocess', 'в процессе'),), max_length=200, default='waiting')

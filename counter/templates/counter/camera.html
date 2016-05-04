@@ -42,28 +42,36 @@
     </div>
     <div class="col-lg-3 col-md-2 col-sm-2 col-xs-12" name="ZoneList">
         <div class="col-lg-12">
-        <div class="dropdown-1 col-lg-4">
-          <a  id='dd1' href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Зоны</a>
-          <ul class="dropdown-menu scrollable-menu">
-            {% for zone in zones %}
-                <li><a href="{% url 'zoneUpdate' camera.id zone.id%}">{{ zone.name }}</a></li>
-            {% endfor %}
-                <li class="divider"></li>
-                <li><a href="{% url 'zoneCreate' camera.id%}"><span class="glyphicon glyphicon-plus"></span></a></li>
-          </ul>
+        <div class="row">
+            <div class="dropdown-1 col-lg-4">
+                <a  id='dd1' href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Зоны</a>
+                <ul class="dropdown-menu scrollable-menu">
+                    {% for zone in zones %}
+                        <li><a href="{% url 'zoneUpdate' camera.id zone.id%}">{{ zone.name }}</a></li>
+                    {% endfor %}
+                    <li class="divider"></li>
+                    <li><a href="{% url 'zoneCreate' camera.id%}"><span class="glyphicon glyphicon-plus"></span></a></li>
+                </ul>
+            </div>
+            <div class="dropdown-2 col-lg-8">
+                <a id='dd2' href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Настройки Зон</a>
+                <ul class="dropdown-menu scrollable-menu">
+                    {% for zone in zones %}
+                        <li class="dropdown-header">{{ zone.name }}</li>
+                        {% for zo in zone.zoneoption_set.all %}
+                            <li><a href="{% url 'zoneopUpdate' camera.id zone.id zo.id%}">{{ zo.name }}</a></li>
+                        {% endfor %}
+                        <li><a href="{% url 'zoneopCreate' camera.id zone.id%}"><span class="glyphicon glyphicon-plus"></span></a></li>
+                        <li class="divider"></li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
-        <div class="dropdown-2 col-lg-8">
-         <a id='dd2' href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Настройки Зон</a>
-          <ul class="dropdown-menu scrollable-menu">
-            {% for zone in zones %}
-                <li class="dropdown-header">{{ zone.name }}</li>
-                {% for zo in zone.zoneoption_set.all %}
-                <li><a href="{% url 'zoneopUpdate' camera.id zone.id zo.id%}">{{ zo.name }}</a></li>
-                {% endfor %}
-                <li><a href="{% url 'zoneopCreate' camera.id zone.id%}"><span class="glyphicon glyphicon-plus"></span></a></li>
-                <li class="divider"></li>
-            {% endfor %}
-          </ul>
+            <br>
+        <div class="row">
+            <div class="col-lg-12">
+                <a class="btn btn-primary" href="{% url 'results' camera.id %}">Результаты</a>
+            </div>
         </div>
 
         </div>
