@@ -126,9 +126,9 @@ function fillCoordinates(polygon){
             <video id="really-cool-video" class="video-js vjs-default-skin" autoplay
             preload="auto" width="{{ cam.width }}" height="{{ cam.height }}" data-setup='{}'>
                 {% if cam %}
-                <source src="rtmp://proxy.sibit.ru:4041/live/v{{ cam.id }}" type='rtmp/flv' />
+                <source src="rtmp://192.168.32.124/live/v{{ cam.id }}" type='rtmp/flv' />
                 {% else %}
-                <source src="rtmp://proxy.sibit.ru:4041/live/v{{ object.camera.id }}" type='rtmp/flv' />
+                <source src="rtmp://192.168.32.124/live/v{{ object.camera.id }}" type='rtmp/flv' />
                 {% endif %}
 
             </video>
