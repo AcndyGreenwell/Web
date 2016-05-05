@@ -36,7 +36,7 @@
         {% csrf_token %}
             <fieldset>
             <div class="form-group{% if form.date_s.errors%} has-error{% endif %}">
-                <label for="id_time_s" class="col-lg-3 control-label" style="text-align: left">{{ form.time_s.help_text }}</label>
+                <label for="id_time_s" class="col-lg-3 control-label" style="text-align: left">{{ form.date_s.help_text }}</label>
                 <div class='input-group date col-lg-12' id='datetimepicker1'>
                     {% render_field form.date_s type="text" class="form-control"%}
                     <span class="input-group-addon">

@@ -1,8 +1,25 @@
 {% extends 'base.html' %}
 {% block title %}
-    Резудьаты
+    Результаты
 {% endblock %}
 {% block links %}
+{% load static %}
+    {% load widget_tweaks %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    {% load static %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-ru_RU.min.js"></script>
+
+    <script type="text/javascript" src="{% static 'moment/min/moment.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'moment/locale/ru.js' %}"></script>
+    <script type="text/javascript" src="{% static 'eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css' %}" />
 {% endblock %}
 {% block content %}
     <div class="row">
@@ -16,30 +33,62 @@
 </div>
     <div class="row">
     <div class="col-lg-12">
-        <table class="table table-striped table-hover">
-            <thead>
-            <tr class="info text-centered">
-                <th>#</th>
-                <th>num</th>
-                <th>ds</th>
-                <th>de</th>
-                <th>num</th>
-                <th>ds</th>
-                <th>de</th>
+   <form action="" method="get">
+
+        <input type="submit" />
+
+    <table class="table table-striped table-hover">
+    <thead>
+        <tr class="info text-centered">
+            <th>#</th>
+            <th>Количество</th>
+            <th>Зона</th>
+            <th>Настройки</th>
+            <th>Направление</th>
+            <th>Начало</th>
+            <th>Конец</th>
+        </tr>
+        <tr>
+            <th>Фильтры</th>
+            <th>Количество</th>
+            <th>{% render_field filter.form.zone_id__zone %}</th>
+            <th>{% render_field filter.form.zone_id %}</th>
+            <th>Направление</th>
+            <th>
+                <div class='input-group date col-lg-12' id='datetimepicker1'>
+                    {% render_field filter.form.datetime_start class="form-control"%}
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </th>
+            <th>Конец</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for obj in filter %}
+            <tr>
+                <th>{{ forloop.counter }}</th>
+                <th>{{ obj.num }}</th>
+                <th>{{ obj.zone_id.zone.name }}</th>
+                <th>{{ obj.zone_id.name }}</th>
+                <th>{{ obj.direction }}</th>
+                <th>{{ obj.datetime_start }}</th>
+                <th>{{ obj.datetime_end }}</th>
             </tr>
-            </thead>
-            {% for f in results %}
-                <tr>
-                    <th>{{ forloop.counter }}</th>
-                    <th>{{ f.num }}</th>
-                    <th>{{ f.direction }}</th>
-                    <th>{{ f.zone_id.zone.name }}</th>
-                    <th>{{ f.zone_id.name }}</th>
-                    <th>{{ f.datetime_start }}</th>
-                    <th>{{ f.datetime_end }}</th>
-                </tr>
-            {% endfor %}
-        </table>
+        {% endfor %}
+    </tbody>
+    </table>
+    </form>
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                format: 'DD.MM.YYYY',
+                locale: 'ru'
+                //sideBySide: true
+            });
+        });
+            </script>
     </div>
     </div>
 {% endblock %}

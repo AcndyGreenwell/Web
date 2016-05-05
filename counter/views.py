@@ -1,17 +1,12 @@
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponseRedirect, HttpResponse
 import subprocess
-from django.core.urlresolvers import reverse
 from .models import *
 from .forms import ZoneForm, TimeTableForm, ZoneOptionForm
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.views.generic import ListView
-from django.db.models import Q
-from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse_lazy
-from django.http import Http404
-
+from .tables import ResultTable
+from django_tables2 import RequestConfig
+from .filters import ResultFilter
 
 sql = 'SELECT counter_camera.id, counter_camera.name, counter_camera.direction, counter_camera.height, counter_camera.img, counter_camera.width  FROM counter_camera, auth_user_groups, counter_camera_group where auth_user_groups.user_id = %s  and auth_user_groups.group_id = counter_camera_group.group_id and counter_camera_group.camera_id = counter_camera.id and counter_camera.id = %s'
 
@@ -271,8 +266,10 @@ def ResultList(request, camera_id):
     zones = Zone.objects.filter(camera_id=camera_id, group=request.user.profile.company)
     zoneops = ZoneOption.objects.filter(zone__in=zones)
     queryset = Results.objects.filter(zone_id__in=zoneops)
+    filter = ResultFilter(request.GET, queryset=queryset)
     context = {
         'cam': camera_id,
         'results': queryset,
+        'filter': filter,
     }
     return render(request, 'counter/results.html', context)
